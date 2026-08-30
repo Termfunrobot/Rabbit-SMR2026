@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TF-ROBOT ระบบสมัครเรียน</title>
+    <title>Smart Rabbit Kids Robot - ระบบสมัครเรียน</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome สำหรับไอคอน -->
@@ -17,128 +17,152 @@
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
         .radio-card:checked + div {
-            border-color: #dc2626;
-            background-color: #fef2f2;
+            border-color: #f97316; /* สีส้มแครอท */
+            background-color: #fff7ed;
         }
         .radio-card:checked + div .radio-indicator {
-            border-color: #dc2626;
+            border-color: #f97316;
         }
         .radio-card:checked + div .radio-indicator-inner {
             opacity: 1;
+            background-color: #f97316;
         }
         
-        /* สไตล์สำหรับปุ่มเลือกวันเรียน */
         .day-radio:checked + div {
-            border-color: #dc2626;
-            background-color: #fef2f2;
-            color: #dc2626;
+            border-color: #f97316;
+            background-color: #fff7ed;
+            color: #ea580c;
             font-weight: 600;
         }
         
-        /* เพิ่ม Animation ให้ตอนโหลดเรียบเนียนขึ้น */
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* อนิเมชั่นของตกแต่งกระต่าย */
+        .animate-bounce-slow { animation: bounce-slow 3s infinite ease-in-out; }
+        @keyframes bounce-slow { 
+            0%, 100% { transform: translateY(-10px); } 
+            50% { transform: translateY(10px); } 
+        }
+
+        /* การตั้งค่าสำหรับระบบพิมพ์ */
+        @media screen {
+            #print-area { display: none; }
+        }
+        @media print {
+            body > *:not(#print-area) { display: none !important; }
+            body { background-color: white; padding: 0; margin: 0; }
+            #print-area { display: block !important; position: static; width: 100%; padding: 20px; color: black; }
+            @page { margin: 1cm; size: A4 portrait; }
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 pb-12 min-h-screen flex flex-col relative">
+<body class="bg-orange-50 text-gray-800 pb-12 min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Decorative Background Elements (Visible on larger screens) -->
+    <div class="fixed top-32 left-10 text-6xl opacity-30 animate-bounce-slow pointer-events-none hidden lg:block z-0">🐰</div>
+    <div class="fixed bottom-32 right-12 text-6xl opacity-30 animate-bounce-slow pointer-events-none hidden lg:block z-0" style="animation-delay: 1s;">🥕</div>
+    <div class="fixed top-1/3 right-16 text-5xl opacity-20 animate-bounce-slow pointer-events-none hidden lg:block z-0" style="animation-delay: 2s;">⚙️</div>
+    <div class="fixed bottom-20 left-16 text-5xl opacity-20 animate-bounce-slow pointer-events-none hidden lg:block z-0" style="animation-delay: 1.5s;">☁️</div>
 
     <!-- Header & Navigation -->
-    <header class="bg-white shadow-sm border-b-4 border-red-600 sticky top-0 z-30">
+    <header class="bg-white shadow-sm border-b-4 border-orange-500 sticky top-0 z-30">
         <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
-                <div class="flex items-center gap-2 text-red-600 text-2xl">
+                <div class="flex items-center gap-2 text-red-600 text-3xl">
                     <i class="fa-solid fa-robot"></i>
-                    <i class="fa-solid fa-fish"></i>
+                    <span>🐰</span>
                 </div>
                 <div>
                     <h1 class="text-xl md:text-2xl font-extrabold text-gray-900 tracking-tight">
-                        <span class="text-red-600">TF-ROBOT</span> & RABBIT
+                        <span class="text-red-600">Smart Rabbit</span> Kids Robot
                     </h1>
-                    <p class="text-xs text-gray-500 hidden md:block">ศูนย์เรียนรู้หุ่นยนต์ AI และโลกแห่งปลาสวยงาม</p>
+                    <p class="text-xs text-orange-600 font-medium hidden md:block">สมาร์ทแรปบิดคิด โรบอท</p>
                 </div>
             </div>
             
             <nav class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
-                <button onclick="switchView('register')" id="nav-register" class="nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-red-600 text-white shadow-sm">
-                    <i class="fa-solid fa-user-plus"></i> สมัครเรียน
+                <button onclick="switchView('register')" id="nav-register" class="nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-orange-500 text-white shadow-sm">
+                    <i class="fa-solid fa-carrot"></i> สมัครเรียน
                 </button>
-                <button onclick="switchView('history')" id="nav-history" class="nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-600">
+                <button onclick="switchView('history')" id="nav-history" class="nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-white border border-gray-200 text-gray-600 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200">
                     <i class="fa-solid fa-clock-rotate-left"></i> ประวัติผู้เรียน
                 </button>
-                <button onclick="switchView('admin')" id="nav-admin" class="nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-gray-100 text-gray-600 hover:bg-gray-200">
+                <button onclick="switchView('admin')" id="nav-admin" class="nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-white border border-gray-200 text-gray-600 hover:bg-gray-100">
                     <i class="fa-solid fa-chart-line"></i> แอดมิน
                 </button>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 mt-8 w-full flex-grow">
+    <main class="max-w-6xl mx-auto px-4 mt-8 w-full flex-grow relative z-10">
         
         <!-- ================= VIEW: REGISTER FORM ================= -->
         <div id="view-register" class="view-section max-w-4xl mx-auto block fade-in">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-gray-900 mb-3">แบบฟอร์มสมัครเรียน</h2>
-                <p class="text-gray-600">มาดู มาเล่น มาเรียนรู้ พื้นที่แห่งความสุขและพัฒนาการของทุกคนในครอบครัว</p>
+            <div class="text-center mb-10 bg-white p-6 rounded-3xl shadow-sm border border-orange-100">
+                <h2 class="text-3xl font-bold text-gray-900 mb-3">แบบฟอร์มสมัครเรียน <span class="text-orange-500">🥕</span></h2>
+                <p class="text-gray-600 text-lg">ยินดีต้อนรับสู่บ้านกระต่ายนักประดิษฐ์! 🐰🤖</p>
+                <p class="text-gray-500 text-sm mt-1">พื้นที่แห่งความสุขและพัฒนาการของทุกคนในครอบครัว</p>
             </div>
 
             <form id="registerForm" class="space-y-8">
                 <!-- Section 1 -->
-                <section class="bg-white rounded-2xl shadow-sm p-6 md:p-8 border border-gray-100">
+                <section class="bg-white rounded-3xl shadow-sm p-6 md:p-8 border border-orange-100">
                     <div class="flex items-center gap-2 border-b border-gray-100 pb-4 mb-6">
-                        <i class="fa-solid fa-user text-red-600 text-xl"></i>
-                        <h3 class="text-xl font-bold text-gray-800">1. ข้อมูลนักเรียนและผู้ปกครอง</h3>
+                        <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-paw"></i></div>
+                        <h3 class="text-xl font-bold text-gray-800">1. ข้อมูลลูกกระต่าย (นักเรียน) และผู้ปกครอง</h3>
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อ-นามสกุล (นักเรียน) *</label>
-                            <input type="text" name="studentName" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="ด.ช. / ด.ญ. ...">
+                            <input type="text" name="studentName" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none transition" placeholder="ด.ช. / ด.ญ. ...">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">อายุ (ปี) *</label>
-                            <input type="number" name="studentAge" required min="4" max="18" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="เช่น 8">
+                            <input type="number" name="studentAge" required min="4" max="18" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none transition" placeholder="เช่น 8">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อผู้ปกครอง *</label>
                             <div class="relative">
                                 <i class="fa-solid fa-user absolute left-4 top-4 text-gray-400"></i>
-                                <input type="text" name="parentName" required class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="ชื่อผู้ปกครอง">
+                                <input type="text" name="parentName" required class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none transition" placeholder="ชื่อผู้ปกครอง">
                             </div>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">เบอร์โทรศัพท์ติดต่อ *</label>
                             <div class="relative">
                                 <i class="fa-solid fa-phone absolute left-4 top-4 text-gray-400"></i>
-                                <input type="tel" name="phone" required class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="08X-XXX-XXXX">
+                                <input type="tel" name="phone" required class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none transition" placeholder="08X-XXX-XXXX">
                             </div>
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Line ID (ถ้ามี)</label>
                             <div class="relative">
                                 <span class="absolute left-4 top-3.5 text-green-500 font-bold">L</span>
-                                <input type="text" name="lineId" class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="Line ID สำหรับติดต่อ">
+                                <input type="text" name="lineId" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none transition" placeholder="Line ID สำหรับติดต่อ">
                             </div>
                         </div>
                         
-                        <!-- เพิ่มตัวเลือกวันเรียน -->
-                        <div class="md:col-span-2 border-t border-gray-100 pt-6 mt-2">
+                        <!-- ตัวเลือกวันเรียน -->
+                        <div class="md:col-span-2 border-t border-orange-50 pt-6 mt-2">
                             <label class="block text-sm font-medium text-gray-700 mb-3">วันที่ต้องการเรียน (Study Day) *</label>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                                 <label class="relative cursor-pointer">
                                     <input type="radio" name="studyDay" value="วันเสาร์" required class="day-radio sr-only">
-                                    <div class="px-4 py-3 rounded-lg border border-gray-300 text-center hover:border-red-300 transition-colors bg-white text-gray-600 text-sm">วันเสาร์</div>
+                                    <div class="px-4 py-3 rounded-xl border border-gray-300 text-center hover:border-orange-300 transition-colors bg-white text-gray-600 text-sm">วันเสาร์</div>
                                 </label>
                                 <label class="relative cursor-pointer">
                                     <input type="radio" name="studyDay" value="วันอาทิตย์" required class="day-radio sr-only">
-                                    <div class="px-4 py-3 rounded-lg border border-gray-300 text-center hover:border-red-300 transition-colors bg-white text-gray-600 text-sm">วันอาทิตย์</div>
+                                    <div class="px-4 py-3 rounded-xl border border-gray-300 text-center hover:border-orange-300 transition-colors bg-white text-gray-600 text-sm">วันอาทิตย์</div>
                                 </label>
                                 <label class="relative cursor-pointer">
                                     <input type="radio" name="studyDay" value="วันธรรมดา" required class="day-radio sr-only">
-                                    <div class="px-4 py-3 rounded-lg border border-gray-300 text-center hover:border-red-300 transition-colors bg-white text-gray-600 text-sm">วันธรรมดา</div>
+                                    <div class="px-4 py-3 rounded-xl border border-gray-300 text-center hover:border-orange-300 transition-colors bg-white text-gray-600 text-sm">วันธรรมดา</div>
                                 </label>
                                 <label class="relative cursor-pointer">
                                     <input type="radio" name="studyDay" value="จัดตารางเอง" required class="day-radio sr-only">
-                                    <div class="px-4 py-3 rounded-lg border border-gray-300 text-center hover:border-red-300 transition-colors bg-white text-gray-600 text-sm">จัดตารางเอง</div>
+                                    <div class="px-4 py-3 rounded-xl border border-gray-300 text-center hover:border-orange-300 transition-colors bg-white text-gray-600 text-sm">จัดตารางเอง</div>
                                 </label>
                             </div>
                         </div>
@@ -149,14 +173,14 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">วันที่เริ่มเรียน *</label>
                                 <div class="relative">
                                     <i class="fa-solid fa-calendar-plus absolute left-4 top-4 text-gray-400"></i>
-                                    <input type="date" name="startDate" required class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition">
+                                    <input type="date" name="startDate" required class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none transition">
                                 </div>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">วันที่จบหลักสูตร (โดยประมาณ) *</label>
                                 <div class="relative">
                                     <i class="fa-solid fa-calendar-check absolute left-4 top-4 text-gray-400"></i>
-                                    <input type="date" name="endDate" required class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition">
+                                    <input type="date" name="endDate" required class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none transition">
                                 </div>
                             </div>
                         </div>
@@ -165,18 +189,18 @@
                 </section>
 
                 <!-- Section 2 -->
-                <section class="bg-white rounded-2xl shadow-sm p-6 md:p-8 border border-gray-100">
+                <section class="bg-white rounded-3xl shadow-sm p-6 md:p-8 border border-orange-100">
                     <div class="flex items-center gap-2 border-b border-gray-100 pb-4 mb-6">
-                        <i class="fa-solid fa-graduation-cap text-red-600 text-xl"></i>
+                        <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-graduation-cap"></i></div>
                         <h3 class="text-xl font-bold text-gray-800">2. เลือกระดับการเรียนรู้ (Learning Pathway) *</h3>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="courseContainer"></div>
                 </section>
 
                 <!-- Section 3 -->
-                <section class="bg-white rounded-2xl shadow-sm p-6 md:p-8 border border-gray-100">
+                <section class="bg-white rounded-3xl shadow-sm p-6 md:p-8 border border-orange-100">
                     <div class="flex items-center gap-2 border-b border-gray-100 pb-4 mb-6">
-                        <i class="fa-solid fa-star text-red-600 text-xl"></i>
+                        <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-star"></i></div>
                         <h3 class="text-xl font-bold text-gray-800">3. เลือกแพ็กเกจคอร์สเรียน *</h3>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="packageContainer"></div>
@@ -187,14 +211,14 @@
                     เกิดปัญหาในการเชื่อมต่อ กรุณาลองอีกครั้ง
                 </div>
                 
-                <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-red-100 flex flex-col md:flex-row items-center justify-between gap-4 sticky bottom-4 z-20">
+                <div class="bg-white rounded-3xl shadow-lg p-6 border-2 border-orange-200 flex flex-col md:flex-row items-center justify-between gap-4 sticky bottom-4 z-20">
                     <div>
                         <p class="text-gray-500 text-sm">ยอดชำระรวม (อ้างอิงตามแพ็กเกจ)</p>
-                        <p class="text-2xl font-bold text-red-600" id="totalPriceDisplay">0 บาท</p>
+                        <p class="text-3xl font-extrabold text-orange-600" id="totalPriceDisplay">0 บาท</p>
                     </div>
-                    <button type="submit" id="submitBtn" class="w-full md:w-auto bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-10 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 group">
+                    <button type="submit" id="submitBtn" class="w-full md:w-auto bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-10 rounded-2xl shadow-md transition-all flex items-center justify-center gap-2 group">
                         <i class="fa-solid fa-spinner fa-spin hidden" id="loadingIcon"></i>
-                        <span id="btnText">ยืนยันการสมัครเรียน</span>
+                        <span id="btnText">ยืนยันการสมัครเรียน 🥕</span>
                         <i class="fa-solid fa-chevron-right group-hover:translate-x-1 transition-transform" id="chevronIcon"></i>
                     </button>
                 </div>
@@ -202,31 +226,34 @@
         </div>
 
         <!-- ================= VIEW: SUCCESS ================= -->
-        <div id="view-success" class="view-section hidden max-w-md mx-auto bg-white rounded-2xl shadow-xl p-8 text-center border-t-4 border-red-600 mt-10 fade-in">
-            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500 text-4xl">
-                <i class="fa-solid fa-circle-check"></i>
+        <div id="view-success" class="view-section hidden max-w-md mx-auto bg-white rounded-3xl shadow-xl p-8 text-center border-t-4 border-orange-500 mt-10 fade-in relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 text-3xl opacity-20">🐰</div>
+            <div class="absolute bottom-0 left-0 p-4 text-3xl opacity-20">🥕</div>
+            
+            <div class="w-24 h-24 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-6 text-6xl animate-bounce-slow border-4 border-orange-100">
+                🐰
             </div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">สมัครเรียนสำเร็จ!</h2>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">เย้! สมัครเรียนสำเร็จ!</h2>
             <p class="text-gray-600 mb-6">
                 ข้อมูลถูกส่งเข้าระบบเรียบร้อยแล้ว<br>
-                เจ้าหน้าที่จะติดต่อกลับโดยเร็วที่สุดครับ
+                เจ้าหน้าที่กระต่ายจะติดต่อกลับโดยเร็วที่สุดครับ
             </p>
             <div class="flex gap-3">
-                <button onclick="resetForm()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-4 rounded-lg transition">สมัครเพิ่ม</button>
-                <button onclick="switchView('history')" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg transition">ดูประวัติ</button>
+                <button onclick="resetForm()" class="w-full bg-orange-50 hover:bg-orange-100 text-orange-700 font-semibold py-3 px-4 rounded-xl transition">สมัครเพิ่ม</button>
+                <button onclick="switchView('history')" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-xl transition">ดูประวัติ</button>
             </div>
         </div>
 
         <!-- ================= VIEW: HISTORY ================= -->
         <div id="view-history" class="view-section hidden max-w-4xl mx-auto fade-in">
-            <div class="flex items-center gap-3 mb-6">
-                <i class="fa-solid fa-clock-rotate-left text-red-600 text-3xl"></i>
+            <div class="flex items-center gap-3 mb-6 bg-white p-6 rounded-3xl shadow-sm border border-orange-100">
+                <div class="w-14 h-14 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-2xl"><i class="fa-solid fa-clock-rotate-left"></i></div>
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-900">ประวัติผู้เรียน</h2>
+                    <h2 class="text-2xl font-bold text-gray-900">ประวัติผู้เรียน 🐰</h2>
                     <p class="text-gray-500">ข้อมูลการสมัครเรียนและการลงทะเบียนทั้งหมด</p>
                 </div>
-                <button onclick="fetchData()" class="ml-auto bg-white border border-gray-200 text-gray-600 hover:text-red-600 hover:border-red-300 px-4 py-2 rounded-lg text-sm transition flex items-center gap-2 shadow-sm">
-                    <i class="fa-solid fa-rotate-right" id="historyRefreshIcon"></i> รีเฟรชข้อมูล
+                <button onclick="fetchData()" class="ml-auto bg-white border border-gray-200 text-gray-600 hover:text-orange-600 hover:border-orange-300 px-4 py-2 rounded-xl text-sm transition flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-rotate-right" id="historyRefreshIcon"></i> รีเฟรช
                 </button>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="historyContainer">
@@ -236,35 +263,35 @@
 
         <!-- ================= VIEW: ADMIN ================= -->
         <div id="view-admin" class="view-section hidden max-w-5xl mx-auto fade-in">
-            <div class="flex items-center gap-3 mb-6">
-                <i class="fa-solid fa-chart-pie text-gray-800 text-3xl"></i>
+            <div class="flex items-center gap-3 mb-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-200">
+                <div class="w-14 h-14 bg-gray-800 text-white rounded-full flex items-center justify-center text-2xl"><i class="fa-solid fa-chart-pie"></i></div>
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-900">ระบบหลังบ้าน (Admin)</h2>
+                    <h2 class="text-2xl font-bold text-gray-900">ระบบหลังบ้าน (Admin) ⚙️</h2>
                     <p class="text-gray-500">จัดการข้อมูลและสรุปยอดผู้สมัครเรียน</p>
                 </div>
-                <button onclick="fetchData()" class="ml-auto bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm transition flex items-center gap-2 shadow-sm">
-                    <i class="fa-solid fa-rotate-right" id="adminRefreshIcon"></i> รีเฟรชข้อมูล
+                <button onclick="fetchData()" class="ml-auto bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-xl text-sm transition flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-rotate-right" id="adminRefreshIcon"></i> รีเฟรช
                 </button>
             </div>
 
             <!-- Stats -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-users"></i></div>
-                    <div><p class="text-sm text-gray-500 font-medium">นักเรียนทั้งหมด</p><p class="text-2xl font-bold text-gray-900" id="stat-total-students">0 คน</p></div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-2xl"><i class="fa-solid fa-users"></i></div>
+                    <div><p class="text-sm text-gray-500 font-medium">ลูกกระต่ายทั้งหมด</p><p class="text-2xl font-bold text-gray-900" id="stat-total-students">0 คน</p></div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                    <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-clipboard-list"></i></div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4">
+                    <div class="w-14 h-14 bg-green-50 text-green-500 rounded-full flex items-center justify-center text-2xl"><i class="fa-solid fa-carrot"></i></div>
                     <div><p class="text-sm text-gray-500 font-medium">ยอดสมัครแพ็กเกจ</p><p class="text-2xl font-bold text-gray-900" id="stat-total-packages">0 รายการ</p></div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl font-bold">฿</div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4">
+                    <div class="w-14 h-14 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center text-2xl font-bold">฿</div>
                     <div><p class="text-sm text-gray-500 font-medium">ยอดรายได้โดยประมาณ</p><p class="text-2xl font-bold text-gray-900" id="stat-total-revenue">0 บาท</p></div>
                 </div>
             </div>
 
             <!-- Table -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm whitespace-nowrap">
                         <thead class="bg-gray-50 border-b border-gray-100 text-gray-600">
@@ -272,9 +299,8 @@
                                 <th class="px-6 py-4 font-semibold">รหัส</th>
                                 <th class="px-6 py-4 font-semibold">ชื่อนักเรียน (อายุ)</th>
                                 <th class="px-6 py-4 font-semibold">ข้อมูลผู้ปกครอง</th>
-                                <th class="px-6 py-4 font-semibold">หลักสูตร/แพ็กเกจ (ระยะเวลา)</th>
-                                <th class="px-6 py-4 font-semibold">วันที่ส่งข้อมูล</th>
-                                <th class="px-6 py-4 font-semibold text-center">สถานะ</th>
+                                <th class="px-6 py-4 font-semibold">หลักสูตร/แพ็กเกจ</th>
+                                <th class="px-6 py-4 font-semibold text-center">จัดการ</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-gray-800" id="adminTableBody">
@@ -287,19 +313,81 @@
 
     </main>
 
-    <footer class="max-w-4xl mx-auto px-4 mt-12 text-center text-gray-500 text-sm">
-        <p>มีข้อสงสัยเพิ่มเติม? ติดต่อสอบถามและจองคลาสเรียน</p>
+    <footer class="max-w-4xl mx-auto px-4 mt-12 mb-8 text-center text-gray-500 text-sm no-print relative z-10">
+        <p>มีข้อสงสัยเพิ่มเติม? ติดต่อสอบถามและจองคลาสเรียน 🥕</p>
         <div class="flex flex-wrap justify-center gap-4 mt-2 font-medium text-gray-700">
-            <span class="flex items-center gap-1"><i class="fa-solid fa-phone text-red-600"></i> 084-799-9639 (อ.วุฒิ)</span>
-            <span class="flex items-center gap-1"><span class="text-green-500 font-bold">@</span> Line: @tfrobot</span>
+            <span class="flex items-center gap-1 bg-white px-4 py-2 rounded-full shadow-sm"><i class="fa-solid fa-phone text-orange-500"></i> 084-799-9639 (อ.วุฒิ)</span>
+            <span class="flex items-center gap-1 bg-white px-4 py-2 rounded-full shadow-sm"><span class="text-green-500 font-bold">@</span> Line: @smartrabbitkids</span>
         </div>
     </footer>
 
+    <!-- ================= PRINT AREA (Hidden on screen) ================= -->
+    <div id="print-area">
+        <div class="text-center mb-6 border-b-2 border-orange-500 pb-4">
+            <h1 class="text-2xl font-extrabold text-gray-900 mb-1">
+                🐰 <span class="text-red-600">Smart Rabbit</span> Kids Robot
+            </h1>
+            <p class="text-sm text-gray-600">สมาร์ทแรปบิดคิด โรบอท</p>
+            <h2 class="text-xl font-bold mt-4">ใบเสร็จรับเงิน / รายละเอียดการเรียน</h2>
+        </div>
+        
+        <div class="flex justify-between text-sm mb-6">
+            <div>
+                <p><strong>รหัสผู้เรียน:</strong> <span id="print-id"></span></p>
+                <p><strong>ชื่อผู้เรียน:</strong> <span id="print-studentName"></span> (อายุ <span id="print-age"></span> ปี)</p>
+                <p><strong>ผู้ปกครอง:</strong> <span id="print-parentName"></span></p>
+                <p><strong>เบอร์โทรติดต่อ:</strong> <span id="print-phone"></span></p>
+            </div>
+            <div class="text-right">
+                <p><strong>วันที่ทำรายการ:</strong> <span id="print-date"></span></p>
+            </div>
+        </div>
+
+        <table class="w-full text-sm border-collapse border border-gray-300 mb-6">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="border border-gray-300 p-2 text-left">รายการ</th>
+                    <th class="border border-gray-300 p-2 text-center">รายละเอียด</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">หลักสูตร (Learning Pathway)</td>
+                    <td class="border border-gray-300 p-2 text-center" id="print-course"></td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">แพ็กเกจ (Package)</td>
+                    <td class="border border-gray-300 p-2 text-center" id="print-package"></td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">จำนวนชั่วโมง/ครั้ง</td>
+                    <td class="border border-gray-300 p-2 text-center" id="print-hours"></td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">วันที่ต้องการเรียน</td>
+                    <td class="border border-gray-300 p-2 text-center" id="print-studyDay"></td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">ระยะเวลาเรียน</td>
+                    <td class="border border-gray-300 p-2 text-center" id="print-duration"></td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-bold text-orange-600 text-lg">ยอดชำระสุทธิ</td>
+                    <td class="border border-gray-300 p-2 text-center font-bold text-orange-600 text-lg"><span id="print-price"></span> บาท</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="text-center text-sm text-gray-500 mt-10">
+            <p>ขอบคุณที่ไว้วางใจให้ Smart Rabbit Kids Robot (สมาร์ทแรปบิดคิด โรบอท) ดูแลพัฒนาการของบุตรหลานท่าน 🐰🥕</p>
+            <p class="mt-2">โทร: 084-799-9639</p>
+        </div>
+    </div>
+    <!-- ================= END PRINT AREA ================= -->
+
     <!-- JavaScript Logic -->
     <script>
-        // ==========================================================
         // URL ของ Google Apps Script (เปลี่ยนตรงนี้)
-        // ==========================================================
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzPlNehr6xCrluPION-IwxbdLcC_z7yzoQ8-1Ho0k6NT_q9-Qfbx0OtdP1PLNy9hrQY/exec';
 
         const courses = [
@@ -311,7 +399,7 @@
         const packages = [
             { id: 'Starter', name: 'Starter', hours: '12 ชม. (6 ครั้ง)', price: 4900, priceStr: '4,900', desc: 'ค้นหาความชอบ + ฟรีระบายสีโมเดล 1 ตัว' },
             { id: 'Pro Builder', name: 'Pro Builder', hours: '24 ชม. (12 ครั้ง)', price: 8900, priceStr: '8,900', desc: 'ยอดฮิต! ฟรีชุดทดลอง STEM กลับบ้าน' },
-            { id: 'VIP Innovator', name: 'VIP Innovator', hours: '80 ชม. (รายปี)', price: 25000, priceStr: '25,000', desc: 'ฟรี! ตู้ปลาขนาดเล็ก + เข้าร่วม Showcase Day' }
+            { id: 'VIP Innovator', name: 'VIP Innovator', hours: '80 ชม. (รายปี)', price: 25000, priceStr: '25,000', desc: 'ฟรี! เข้าร่วม Showcase Day' }
         ];
 
         let registeredStudents = [];
@@ -322,20 +410,13 @@
             fetchData();
         });
 
-        // ================= ฟังก์ชันแปลงวันที่ให้อ่านง่าย =================
         function formatDateThai(dateString) {
             if (!dateString) return 'ไม่ระบุ';
-            // ถ้ารูปแบบไม่ใช่วันที่มาตรฐาน หรือรับมาเป็นข้อความที่ format แล้วจากชีต ให้ใช้ค่าเดิมเลย
             const d = new Date(dateString);
             if (isNaN(d.getTime())) return dateString; 
-            return d.toLocaleDateString('th-TH', { 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric' 
-            });
+            return d.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
         }
 
-        // ================= ฟังก์ชันดึงข้อมูล (GET) =================
         async function fetchData() {
             const historyContainer = document.getElementById('historyContainer');
             const adminTableBody = document.getElementById('adminTableBody');
@@ -345,18 +426,14 @@
             if(historyIcon) historyIcon.classList.add('fa-spin');
             if(adminIcon) adminIcon.classList.add('fa-spin');
 
-            historyContainer.innerHTML = '<div class="col-span-full text-center py-10"><i class="fa-solid fa-spinner fa-spin text-red-600 text-4xl mb-3"></i><p class="text-gray-500">กำลังซิงค์ข้อมูลกับระบบ...</p></div>';
-            adminTableBody.innerHTML = '<tr><td colspan="6" class="text-center py-10"><i class="fa-solid fa-spinner fa-spin text-gray-400 text-2xl mb-2"></i><p class="text-gray-500">กำลังโหลดข้อมูล...</p></td></tr>';
+            historyContainer.innerHTML = '<div class="col-span-full text-center py-10"><i class="fa-solid fa-spinner fa-spin text-orange-500 text-4xl mb-3"></i><p class="text-gray-500">กำลังดึงข้อมูลลูกกระต่าย...</p></div>';
+            adminTableBody.innerHTML = '<tr><td colspan="5" class="text-center py-10"><i class="fa-solid fa-spinner fa-spin text-gray-400 text-2xl mb-2"></i><p class="text-gray-500">กำลังโหลดข้อมูล...</p></td></tr>';
 
             try {
                 const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + new Date().getTime());
                 if(res.ok) {
                     const data = await res.json();
-                    if(Array.isArray(data)) {
-                        registeredStudents = data.reverse(); 
-                    }
-                } else {
-                    console.error("ดึงข้อมูลไม่ได้ (Status:", res.status, ")");
+                    if(Array.isArray(data)) { registeredStudents = data.reverse(); }
                 }
             } catch (error) {
                 console.error('Fetch Error:', error);
@@ -368,42 +445,35 @@
             }
         }
 
-        // ================= สลับหน้า =================
         function switchView(viewName) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`view-${viewName}`).classList.remove('hidden');
 
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.className = 'nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-gray-100 text-gray-600 hover:bg-gray-200';
+                btn.className = 'nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-white border border-gray-200 text-gray-600 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200';
             });
 
             const activeBtn = document.getElementById(`nav-${viewName}`);
             if(activeBtn) {
                 if(viewName === 'admin') {
-                    activeBtn.className = 'nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-gray-800 text-white shadow-sm';
+                    activeBtn.className = 'nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-gray-800 text-white shadow-sm border border-gray-800';
                 } else {
-                    activeBtn.className = 'nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-red-600 text-white shadow-sm';
+                    activeBtn.className = 'nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-orange-500 text-white shadow-sm border border-orange-500';
                 }
             }
-            
-            if(viewName === 'history' || viewName === 'admin') {
-                updateDashboard();
-            }
+            if(viewName === 'history' || viewName === 'admin') updateDashboard();
         }
 
         function renderCourses() {
-            const container = document.getElementById('courseContainer');
-            container.innerHTML = courses.map(c => `
+            document.getElementById('courseContainer').innerHTML = courses.map(c => `
                 <label class="relative cursor-pointer">
                     <input type="radio" name="courseLevel" value="${c.id}" required class="radio-card sr-only" onchange="updatePrice()">
-                    <div class="h-full p-5 rounded-xl border-2 border-gray-200 hover:border-red-300 transition-all bg-white">
+                    <div class="h-full p-5 rounded-2xl border-2 border-gray-200 hover:border-orange-300 transition-all bg-white">
                         <div class="flex justify-between items-start mb-2">
                             <span class="font-bold text-lg text-gray-900">${c.name}</span>
-                            <div class="radio-indicator w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center transition-colors">
-                                <div class="radio-indicator-inner w-2.5 h-2.5 bg-red-600 rounded-full opacity-0 transition-opacity"></div>
-                            </div>
+                            <div class="radio-indicator w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center transition-colors"><div class="radio-indicator-inner w-2.5 h-2.5 rounded-full opacity-0 transition-opacity"></div></div>
                         </div>
-                        <span class="inline-block bg-white text-red-600 text-xs font-semibold px-2 py-1 rounded w-max mb-2 border border-red-100">${c.age}</span>
+                        <span class="inline-block bg-orange-50 text-orange-600 text-xs font-semibold px-2 py-1 rounded w-max mb-2 border border-orange-100">${c.age}</span>
                         <div class="text-sm text-gray-600">${c.desc}</div>
                     </div>
                 </label>
@@ -411,21 +481,15 @@
         }
 
         function renderPackages() {
-            const container = document.getElementById('packageContainer');
-            container.innerHTML = packages.map(p => `
+            document.getElementById('packageContainer').innerHTML = packages.map(p => `
                 <label class="relative cursor-pointer">
                     <input type="radio" name="package" value="${p.id}" required class="radio-card sr-only" onchange="updatePrice()">
-                    <div class="h-full p-5 rounded-xl border-2 border-gray-200 hover:border-red-300 transition-all bg-white overflow-hidden relative">
-                        ${p.id === 'Pro Builder' ? '<div class="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg z-10">Best Seller</div>' : ''}
+                    <div class="h-full p-5 rounded-2xl border-2 border-gray-200 hover:border-orange-300 transition-all bg-white overflow-hidden relative">
+                        ${p.id === 'Pro Builder' ? '<div class="absolute top-0 right-0 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl z-10">ฮิตสุด 🥕</div>' : ''}
                         <h4 class="font-bold text-xl text-gray-900 mb-1 mt-1">${p.name}</h4>
                         <p class="text-gray-500 text-sm mb-4">${p.hours}</p>
-                        <div class="flex items-baseline gap-1 mb-4">
-                            <span class="text-3xl font-extrabold text-red-600">${p.priceStr}</span>
-                            <span class="text-gray-500">บาท</span>
-                        </div>
-                        <div class="bg-gray-50 rounded p-3 text-sm text-gray-700">
-                            <span class="text-red-600 font-semibold mr-1">สิทธิพิเศษ:</span>${p.desc}
-                        </div>
+                        <div class="flex items-baseline gap-1 mb-4"><span class="text-3xl font-extrabold text-orange-600">${p.priceStr}</span><span class="text-gray-500">บาท</span></div>
+                        <div class="bg-orange-50 rounded-xl p-3 text-sm text-gray-700 border border-orange-100"><span class="text-orange-600 font-semibold mr-1">สิทธิพิเศษ:</span>${p.desc}</div>
                     </div>
                 </label>
             `).join('');
@@ -439,50 +503,39 @@
             }
         }
 
-        // ================= ส่งข้อมูลไปที่ Sheet (POST) =================
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const form = e.target;
             const submitBtn = document.getElementById('submitBtn');
             const btnText = document.getElementById('btnText');
-            const errorMessage = document.getElementById('error-message');
             
             submitBtn.disabled = true;
-            submitBtn.classList.replace('bg-red-600', 'bg-red-400');
+            submitBtn.classList.replace('bg-orange-500', 'bg-orange-300');
+            submitBtn.classList.replace('hover:bg-orange-600', 'hover:bg-orange-300');
             btnText.innerText = 'กำลังบันทึกข้อมูล...';
             document.getElementById('loadingIcon').classList.remove('hidden');
             document.getElementById('chevronIcon').classList.add('hidden');
-            errorMessage.classList.add('hidden');
+            document.getElementById('error-message').classList.add('hidden');
 
             const formData = new FormData(form);
             const tempId = `STU-${String(registeredStudents.length + 1).padStart(3, '0')}`;
             const currentDate = new Date().toLocaleDateString('th-TH');
-            
             formData.append('id', tempId);
             formData.append('date', currentDate);
 
             try {
                 const urlParams = new URLSearchParams();
-                for (const pair of formData.entries()) {
-                    urlParams.append(pair[0], pair[1]);
-                }
-
-                await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    body: urlParams,
-                    mode: 'no-cors' 
-                });
-                
+                for (const pair of formData.entries()) urlParams.append(pair[0], pair[1]);
+                await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: urlParams, mode: 'no-cors' });
                 switchView('success');
                 setTimeout(() => fetchData(), 1000); 
-
             } catch (error) {
-                errorMessage.classList.remove('hidden');
-                console.error('Submission Error:', error);
+                document.getElementById('error-message').classList.remove('hidden');
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.classList.replace('bg-red-400', 'bg-red-600');
-                btnText.innerText = 'ยืนยันการสมัครเรียน';
+                submitBtn.classList.replace('bg-orange-300', 'bg-orange-500');
+                submitBtn.classList.replace('hover:bg-orange-300', 'hover:bg-orange-600');
+                btnText.innerText = 'ยืนยันการสมัครเรียน 🥕';
                 document.getElementById('loadingIcon').classList.add('hidden');
                 document.getElementById('chevronIcon').classList.remove('hidden');
             }
@@ -495,14 +548,44 @@
             switchView('register');
         }
 
+        // ================= ฟังก์ชันสำหรับพิมพ์ใบเสร็จ =================
+        function printReceipt(id) {
+            const s = registeredStudents.find(student => student.id === id);
+            if (!s) return;
+
+            const pkgInfo = packages.find(p => p.id === s.package);
+            const price = pkgInfo ? pkgInfo.priceStr : '-';
+            const trainingDays = pkgInfo ? pkgInfo.hours : '-';
+            const startStr = formatDateThai(s.startDate);
+            const endStr = formatDateThai(s.endDate);
+
+            // เติมข้อมูลลงในแบบฟอร์มพิมพ์
+            document.getElementById('print-id').innerText = s.id;
+            document.getElementById('print-studentName').innerText = s.studentName;
+            document.getElementById('print-age').innerText = s.studentAge;
+            document.getElementById('print-parentName').innerText = s.parentName;
+            document.getElementById('print-phone').innerText = s.phone;
+            document.getElementById('print-date').innerText = s.date;
+            
+            document.getElementById('print-course').innerText = s.courseLevel;
+            document.getElementById('print-package').innerText = s.package;
+            document.getElementById('print-hours').innerText = trainingDays;
+            document.getElementById('print-studyDay').innerText = s.studyDay;
+            document.getElementById('print-duration').innerText = `${startStr} ถึง ${endStr}`;
+            document.getElementById('print-price').innerText = price;
+
+            // สั่งพิมพ์หน้าจอ
+            window.print();
+        }
+
         // ================= อัปเดตหน้า Dashboard และ History =================
         function updateDashboard() {
             const historyContainer = document.getElementById('historyContainer');
             const adminTableBody = document.getElementById('adminTableBody');
 
             if (registeredStudents.length === 0) {
-                historyContainer.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400"><i class="fa-regular fa-folder-open text-4xl mb-3"></i><p>ยังไม่มีข้อมูลการสมัครเรียนในระบบ</p></div>';
-                adminTableBody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-500">ไม่มีข้อมูล</td></tr>';
+                historyContainer.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400"><i class="fa-regular fa-folder-open text-4xl mb-3"></i><p>ยังไม่มีข้อมูลในระบบเลย 🐰</p></div>';
+                adminTableBody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-500">ไม่มีข้อมูล</td></tr>';
                 document.getElementById('stat-total-students').innerText = '0 คน';
                 document.getElementById('stat-total-packages').innerText = '0 รายการ';
                 document.getElementById('stat-total-revenue').innerText = '0 บาท';
@@ -519,54 +602,53 @@
                 const pkgName = s.package || '-';
                 const date = s.date || '-';
                 const studyDay = s.studyDay || 'ไม่ระบุ';
-                
-                // แปลงรูปแบบวันที่เริ่มและจบ
                 const startStr = formatDateThai(s.startDate);
                 const endStr = formatDateThai(s.endDate);
-
                 const initial = name.startsWith('ด.') && name.length > 4 ? name.charAt(4) : name.charAt(0);
-                
-                // ดึงข้อมูลราคาและจำนวนวันอบรมจาก Packages Array
                 const pkgInfo = packages.find(p => p.id === s.package);
                 const price = pkgInfo ? pkgInfo.priceStr : '-';
                 const trainingDays = pkgInfo ? pkgInfo.hours : '-';
 
                 return `
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col relative overflow-hidden transition-all hover:shadow-md fade-in">
-                    <div class="absolute top-0 right-0 bg-red-50 text-red-600 font-bold px-4 py-1 rounded-bl-lg text-sm border-b border-l border-red-100">${id}</div>
+                <div class="bg-white rounded-3xl shadow-sm border border-orange-100 p-6 flex flex-col relative overflow-hidden transition-all hover:shadow-md fade-in">
+                    <div class="absolute top-0 right-0 bg-orange-50 text-orange-600 font-bold px-4 py-1 rounded-bl-xl text-sm border-b border-l border-orange-100">${id}</div>
                     <div class="flex items-center gap-4 mb-4 mt-2">
-                        <div class="w-14 h-14 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold text-xl">${initial}</div>
+                        <div class="w-14 h-14 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-xl">${initial}</div>
                         <div>
                             <h3 class="text-lg font-bold text-gray-900">${name}</h3>
                             <p class="text-sm text-gray-500">อายุ ${age} ปี | ผปค: ${parent}</p>
                         </div>
                     </div>
-                    <div class="bg-gray-50 rounded-xl p-4 flex-grow border border-gray-100">
-                        <div class="flex items-center gap-2 mb-2 font-semibold text-gray-800"><i class="fa-solid fa-book-open text-red-500 w-4 text-center"></i> ${course}</div>
-                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-star text-yellow-500 w-4 text-center"></i> แพ็กเกจ: ${pkgName}</div>
-                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-calendar-week text-blue-500 w-4 text-center"></i> วันที่เรียน: ${studyDay}</div>
-                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-calendar-days text-purple-500 w-4 text-center"></i> ระยะเวลา: ${startStr} - ${endStr}</div>
-                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-clock text-green-500 w-4 text-center"></i> จำนวนชั่วโมง/ครั้ง: ${trainingDays}</div>
-                        <div class="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-4"><i class="fa-solid fa-sack-dollar text-green-600 w-4 text-center"></i> ยอดชำระ: ${price} บาท</div>
-                        <div class="text-xs text-gray-400 mt-auto pt-3 border-t border-gray-200"><i class="fa-solid fa-paper-plane mr-1"></i> ส่งข้อมูลเมื่อ: ${date}</div>
+                    <div class="bg-orange-50/50 rounded-2xl p-4 flex-grow border border-orange-100">
+                        <div class="flex items-center gap-2 mb-2 font-semibold text-gray-800"><i class="fa-solid fa-paw text-orange-500 w-4 text-center"></i> ${course}</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-carrot text-orange-500 w-4 text-center"></i> แพ็กเกจ: ${pkgName}</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-calendar-week text-blue-400 w-4 text-center"></i> วันที่เรียน: ${studyDay}</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-calendar-days text-purple-400 w-4 text-center"></i> ระยะเวลา: ${startStr} - ${endStr}</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-clock text-green-500 w-4 text-center"></i> จำนวนชั่วโมง: ${trainingDays}</div>
+                        
+                        <div class="flex items-center justify-between mt-4 pt-4 border-t border-orange-200/60">
+                            <div class="font-bold text-orange-600">ยอดชำระ: ${price} ฿</div>
+                            <button onclick="printReceipt('${id}')" class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-print"></i> พิมพ์ใบเสร็จ
+                            </button>
+                        </div>
                     </div>
                 </div>
                 `;
             }).join('');
 
-            // คำนวณรายได้ทั้งหมด
+            // คำนวณรายได้
             let totalRev = 0;
             registeredStudents.forEach(s => {
                 const pkg = packages.find(p => p.id === s.package);
                 if(pkg) totalRev += pkg.price;
             });
 
-            // อัปเดตสถิติหลังบ้าน
             document.getElementById('stat-total-students').innerText = `${registeredStudents.length} คน`;
             document.getElementById('stat-total-packages').innerText = `${registeredStudents.length} รายการ`;
             document.getElementById('stat-total-revenue').innerText = `${totalRev.toLocaleString()} บาท`;
 
-            // เรนเดอร์ ตารางแอดมิน (Admin View)
+            // เรนเดอร์ ตารางแอดมิน
             adminTableBody.innerHTML = registeredStudents.map(s => {
                 const id = s.id || '-';
                 const name = s.studentName || '-';
@@ -575,15 +657,13 @@
                 const phone = s.phone || '-';
                 const course = s.courseLevel || '-';
                 const pkgName = s.package || '-';
-                const date = s.date || '-';
                 const studyDay = s.studyDay || 'ไม่ระบุ';
-                
                 const startStr = formatDateThai(s.startDate);
                 const endStr = formatDateThai(s.endDate);
 
                 return `
-                <tr class="hover:bg-gray-50 transition fade-in">
-                    <td class="px-6 py-4 font-medium text-red-600">${id}</td>
+                <tr class="hover:bg-orange-50 transition fade-in">
+                    <td class="px-6 py-4 font-medium text-orange-600">${id}</td>
                     <td class="px-6 py-4">
                         <div class="font-semibold">${name}</div>
                         <div class="text-xs text-gray-500">อายุ ${age} ปี</div>
@@ -594,15 +674,14 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="font-medium text-gray-900">${course}</div>
-                        <div class="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded inline-block mt-1 mb-1">${pkgName}</div>
-                        <div class="text-xs text-blue-600 mt-1"><i class="fa-solid fa-calendar-week w-3"></i> ${studyDay}</div>
-                        <div class="text-xs text-purple-600 mt-1"><i class="fa-solid fa-calendar-days w-3"></i> ${startStr} - ${endStr}</div>
+                        <div class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-md inline-block mt-1 mb-1">${pkgName}</div>
+                        <div class="text-xs text-blue-500 mt-1"><i class="fa-solid fa-calendar-week w-3"></i> ${studyDay}</div>
+                        <div class="text-xs text-purple-500 mt-1"><i class="fa-solid fa-calendar-days w-3"></i> ${startStr} - ${endStr}</div>
                     </td>
-                    <td class="px-6 py-4 text-gray-500 whitespace-nowrap">${date}</td>
                     <td class="px-6 py-4 text-center">
-                        <span class="inline-flex items-center gap-1 bg-green-50 text-green-600 px-2 py-1 rounded text-xs font-medium border border-green-100">
-                            <i class="fa-solid fa-check-circle"></i> บันทึกแล้ว
-                        </span>
+                        <button onclick="printReceipt('${id}')" class="text-gray-500 hover:text-orange-600 bg-white border border-gray-200 hover:border-orange-300 px-3 py-1.5 rounded-lg text-sm transition shadow-sm">
+                            <i class="fa-solid fa-print"></i> พิมพ์
+                        </button>
                     </td>
                 </tr>
                 `;
