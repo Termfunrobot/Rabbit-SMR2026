@@ -38,21 +38,16 @@
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* อนิเมชั่นของตกแต่งกระต่าย */
         .animate-bounce-slow { animation: bounce-slow 3s infinite ease-in-out; }
         @keyframes bounce-slow { 
             0%, 100% { transform: translateY(-10px); } 
             50% { transform: translateY(10px); } 
         }
 
-        /* Hover Effect สำหรับ Banner */
         .banner-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .banner-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
 
-        /* การตั้งค่าสำหรับระบบพิมพ์ */
-        @media screen {
-            #print-area { display: none; }
-        }
+        @media screen { #print-area { display: none; } }
         @media print {
             body > *:not(#print-area) { display: none !important; }
             body { background-color: white; padding: 0; margin: 0; }
@@ -89,6 +84,9 @@
                 <button onclick="switchView('home')" id="nav-home" class="nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-orange-500 text-white shadow-sm border border-orange-500">
                     <i class="fa-solid fa-house"></i> หน้าหลัก
                 </button>
+                <button onclick="switchView('syllabus')" id="nav-syllabus" class="nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-white border border-gray-200 text-gray-600 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200">
+                    <i class="fa-solid fa-book-open-reader"></i> แผนการสอน
+                </button>
                 <button onclick="switchView('register')" id="nav-register" class="nav-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap bg-white border border-gray-200 text-gray-600 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200">
                     <i class="fa-solid fa-carrot"></i> สมัครเรียน
                 </button>
@@ -106,7 +104,6 @@
         
         <!-- ================= VIEW: HOME (หน้าหลัก) ================= -->
         <div id="view-home" class="view-section block fade-in max-w-6xl mx-auto">
-            
             <!-- Hero Banner -->
             <div class="bg-gradient-to-r from-orange-400 to-red-500 rounded-3xl p-8 md:p-12 text-white shadow-lg relative overflow-hidden mb-8 banner-card cursor-pointer" onclick="switchView('register')">
                 <div class="relative z-10 md:w-2/3">
@@ -117,102 +114,45 @@
                         สมัครเรียนคอร์สใหม่ <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
-                <div class="absolute -bottom-10 -right-10 text-9xl opacity-20 transform -rotate-12">
-                    🤖
-                </div>
+                <div class="absolute -bottom-10 -right-10 text-9xl opacity-20 transform -rotate-12">🤖</div>
             </div>
 
             <!-- Service Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                
-                <!-- Service 1: TF-ROBOT LEARNING CENTER -->
+                <!-- Service 1: TF-ROBOT -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-orange-100 banner-card cursor-pointer group" onclick="switchView('register')">
-                    <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-microchip"></i>
-                    </div>
+                    <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-microchip"></i></div>
                     <h3 class="text-xl font-bold text-gray-900 mb-1">TF-ROBOT LEARNING CENTER</h3>
                     <p class="text-xs text-orange-500 font-bold mb-3">(Smart Module B) ศูนย์พัฒนาทักษะแห่งอนาคต</p>
                     <ul class="text-gray-600 text-sm mb-4 space-y-2 list-disc ml-4">
                         <li><strong class="text-gray-800">Robotics & Arduino:</strong> สนุกกับการสร้างหุ่นยนต์และระบบอัตโนมัติ</li>
-                        <li><strong class="text-gray-800">Coding & AI:</strong> เขียนโปรแกรมพัฒนาสมองกลและแอปพลิเคชัน (สอนเด็กเขียนเกมสร้างเกมส์ ต่อบล็อกด้วย HTML)</li>
-                        <li><strong class="text-gray-800">STEM Experiments:</strong> ทดลองวิทยาศาสตร์เข้าใจง่ายผ่านการลงมือทำจริง</li>
+                        <li><strong class="text-gray-800">Coding & AI:</strong> เขียนโปรแกรม (สอนเด็กเขียนเกมสร้างเกมส์ ต่อบล็อกด้วย HTML)</li>
+                        <li><strong class="text-gray-800">STEM Experiments:</strong> ทดลองวิทยาศาสตร์ผ่านการลงมือทำจริง</li>
                     </ul>
                     <div class="text-orange-500 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">สมัครเรียน <i class="fa-solid fa-chevron-right text-xs"></i></div>
                 </div>
 
                 <!-- Service 2: RABBIT AQUARIUM -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-orange-100 banner-card group">
-                    <div class="w-16 h-16 bg-cyan-50 text-cyan-500 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-fish-fins"></i>
-                    </div>
+                    <div class="w-16 h-16 bg-cyan-50 text-cyan-500 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-fish-fins"></i></div>
                     <h3 class="text-xl font-bold text-gray-900 mb-1">RABBIT AQUARIUM</h3>
                     <p class="text-xs text-cyan-500 font-bold mb-3">(Smart Module A) อาณาจักรปลาสวยงาม</p>
                     <ul class="text-gray-600 text-sm mb-4 space-y-2 list-disc ml-4">
-                        <li>ปลากัด (Siamese Fighting Fish), ปลาทอง (Goldfish), Guppy, Barb และปลาหลากชนิด</li>
+                        <li>ปลากัด (Siamese Fighting Fish), ปลาทอง (Goldfish), Guppy, Barb</li>
                         <li>ตู้ปลาหลากหลายขนาด: Standard, Nano, Smart Aquarium</li>
                         <li>ชุดเลี้ยงปลาแบบครบเซต พร้อมพรรณไม้น้ำ</li>
-                        <li>หินตกแต่งและอุปกรณ์ดูแลรักษาครบจบในที่เดียว</li>
                     </ul>
                 </div>
 
-                <!-- Service 3: โซนพิเศษสำหรับทุกคนในครอบครัว -->
+                <!-- Service 3: โซนครอบครัว -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-orange-100 banner-card group">
-                    <div class="w-16 h-16 bg-pink-50 text-pink-500 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-people-roof"></i>
-                    </div>
+                    <div class="w-16 h-16 bg-pink-50 text-pink-500 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-people-roof"></i></div>
                     <h3 class="text-xl font-bold text-gray-900 mb-3">โซนพิเศษสำหรับทุกคนในครอบครัว</h3>
                     <ul class="text-gray-600 text-sm mb-4 space-y-3">
-                        <li><strong class="text-pink-500">FREE PLAY ZONE:</strong> พื้นที่สนุกสำหรับนักเรียน TF-ROBOT เสริมสร้างพัฒนาการครบทุกด้าน</li>
-                        <li><strong class="text-pink-500">MODEL PAINTING ZONE:</strong> มุมระบายสีโมเดล ฝึกสมาธิและความคิดสร้างสรรค์ (นำผลงานกลับบ้านได้)</li>
-                        <li><strong class="text-pink-500">PARENT ZONE:</strong> มุมพักผ่อนสำหรับผู้ปกครอง นั่งสบาย ทำงานได้ มี Wi-Fi และปลั๊กไฟบริการฟรี (พร้อมเมนูปังเย็นแสนอร่อย)</li>
+                        <li><strong class="text-pink-500">FREE PLAY ZONE:</strong> พื้นที่สนุกสำหรับนักเรียน เสริมพัฒนาการ</li>
+                        <li><strong class="text-pink-500">MODEL PAINTING ZONE:</strong> มุมระบายสีโมเดล ฝึกสมาธิ (นำผลงานกลับบ้านได้)</li>
+                        <li><strong class="text-pink-500">PARENT ZONE:</strong> มุมพักผ่อนสำหรับผู้ปกครอง มี Wi-Fi ฟรี พร้อมเมนูปังเย็นแสนอร่อย</li>
                     </ul>
-                </div>
-            </div>
-
-            <!-- Course Detail Banner Section -->
-            <div class="bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-orange-100 mb-8">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-3">📚 แผนการเรียนรู้ตามช่วงวัย (Learning Pathway)</h2>
-                    <p class="text-gray-500">ออกแบบมาเพื่อพัฒนาทักษะเฉพาะด้านของเด็กแต่ละกลุ่มอายุ</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="border-l-4 border-yellow-400 pl-4">
-                        <div class="text-xs font-bold text-white bg-yellow-500 px-3 py-1 rounded-full inline-block mb-2">อายุ 5-7 ปี</div>
-                        <h4 class="text-xl font-bold text-gray-900 mb-3">Kids Explorer</h4>
-                        <div class="mb-3">
-                            <span class="text-sm font-bold text-gray-800 block mb-1"><i class="fa-solid fa-bullseye text-yellow-500 mr-1"></i> เป้าหมาย:</span>
-                            <p class="text-sm text-gray-600 pl-5">ปูพื้นฐานตรรกะ จินตนาการ และสร้างสรรค์</p>
-                        </div>
-                        <div>
-                            <span class="text-sm font-bold text-gray-800 block mb-1"><i class="fa-solid fa-star text-yellow-500 mr-1"></i> กิจกรรมเด่น:</span>
-                            <p class="text-sm text-gray-600 pl-5">เรียนรู้วิทยาศาสตร์, Unplugged Coding, ต่อตัวต่อกลไกเบื้องต้น</p>
-                        </div>
-                    </div>
-                    <div class="border-l-4 border-green-500 pl-4">
-                        <div class="text-xs font-bold text-white bg-green-500 px-3 py-1 rounded-full inline-block mb-2">อายุ 8-12 ปี</div>
-                        <h4 class="text-xl font-bold text-gray-900 mb-3">Junior Creator</h4>
-                        <div class="mb-3">
-                            <span class="text-sm font-bold text-gray-800 block mb-1"><i class="fa-solid fa-bullseye text-green-500 mr-1"></i> เป้าหมาย:</span>
-                            <p class="text-sm text-gray-600 pl-5">สนุกกับการลงมือทำ และเปลี่ยนไอเดียให้เป็นความจริง</p>
-                        </div>
-                        <div>
-                            <span class="text-sm font-bold text-gray-800 block mb-1"><i class="fa-solid fa-star text-green-500 mr-1"></i> กิจกรรมเด่น:</span>
-                            <p class="text-sm text-gray-600 pl-5">เขียนโปรแกรมประกอบหุ่นยนต์เคลื่อนที่, โปรเจกต์ HTML</p>
-                        </div>
-                    </div>
-                    <div class="border-l-4 border-blue-500 pl-4">
-                        <div class="text-xs font-bold text-white bg-blue-500 px-3 py-1 rounded-full inline-block mb-2">อายุ 13 ปีขึ้นไป</div>
-                        <h4 class="text-xl font-bold text-gray-900 mb-3">Tech Innovator</h4>
-                        <div class="mb-3">
-                            <span class="text-sm font-bold text-gray-800 block mb-1"><i class="fa-solid fa-bullseye text-blue-500 mr-1"></i> เป้าหมาย:</span>
-                            <p class="text-sm text-gray-600 pl-5">ต่อยอดทักษะสู่อนาคต สร้างสรรค์นวัตกรรมใช้งานจริง</p>
-                        </div>
-                        <div>
-                            <span class="text-sm font-bold text-gray-800 block mb-1"><i class="fa-solid fa-star text-blue-500 mr-1"></i> กิจกรรมเด่น:</span>
-                            <p class="text-sm text-gray-600 pl-5">เขียนโปรแกรม Python/C++, IoT ควบคุม Smart Aquarium</p>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -228,13 +168,8 @@
                     <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col">
                         <h3 class="text-xl font-bold text-gray-900 mb-1">Starter</h3>
                         <p class="text-sm text-gray-500 font-medium mb-4">(ทดลองความชอบ)</p>
-                        
-                        <div class="bg-gray-50 rounded-xl p-3 mb-4 text-center border border-gray-100">
-                            <p class="text-gray-700 font-semibold">12 ชม. (6 ครั้ง)</p>
-                        </div>
-                        
+                        <div class="bg-gray-50 rounded-xl p-3 mb-4 text-center border border-gray-100"><p class="text-gray-700 font-semibold">12 ชม. (6 ครั้ง)</p></div>
                         <p class="text-3xl font-extrabold text-orange-600 mb-4 border-b pb-4 text-center">4,900.-</p>
-                        
                         <div class="text-sm text-gray-700 flex-grow">
                             <p class="font-bold text-gray-900 mb-2 flex items-center gap-1"><i class="fa-solid fa-gift text-orange-500"></i> สิทธิพิเศษ:</p>
                             <ul class="list-none space-y-2 text-gray-600">
@@ -249,13 +184,8 @@
                         <div class="absolute -top-3 right-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">ยอดฮิต! 🥕</div>
                         <h3 class="text-xl font-bold text-gray-900 mb-1">Pro Builder</h3>
                         <p class="text-sm text-orange-500 font-bold mb-4">(ยอดฮิต!)</p>
-                        
-                        <div class="bg-orange-50 rounded-xl p-3 mb-4 text-center border border-orange-100">
-                            <p class="text-orange-800 font-semibold">24 ชม. (12 ครั้ง)</p>
-                        </div>
-                        
+                        <div class="bg-orange-50 rounded-xl p-3 mb-4 text-center border border-orange-100"><p class="text-orange-800 font-semibold">24 ชม. (12 ครั้ง)</p></div>
                         <p class="text-3xl font-extrabold text-orange-600 mb-4 border-b pb-4 text-center">8,900.-</p>
-                        
                         <div class="text-sm text-gray-700 flex-grow">
                             <p class="font-bold text-gray-900 mb-2 flex items-center gap-1"><i class="fa-solid fa-gift text-orange-500"></i> สิทธิพิเศษ:</p>
                             <ul class="list-none space-y-2 text-gray-600">
@@ -269,13 +199,8 @@
                     <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col">
                         <h3 class="text-xl font-bold text-gray-900 mb-1">VIP Innovator</h3>
                         <p class="text-sm text-gray-500 font-medium mb-4">(รายปี)</p>
-                        
-                        <div class="bg-gray-50 rounded-xl p-3 mb-4 text-center border border-gray-100">
-                            <p class="text-gray-700 font-semibold">80 ชม. (จัดสรรเวลาได้)</p>
-                        </div>
-                        
+                        <div class="bg-gray-50 rounded-xl p-3 mb-4 text-center border border-gray-100"><p class="text-gray-700 font-semibold">80 ชม. (จัดสรรเวลาได้)</p></div>
                         <p class="text-3xl font-extrabold text-orange-600 mb-4 border-b pb-4 text-center">25,000.-</p>
-                        
                         <div class="text-sm text-gray-700 flex-grow">
                             <p class="font-bold text-gray-900 mb-2 flex items-center gap-1"><i class="fa-solid fa-gift text-orange-500"></i> สิทธิพิเศษ:</p>
                             <ul class="list-none space-y-2 text-gray-600">
@@ -287,7 +212,169 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- ================= VIEW: SYLLABUS (แผนการสอน) ================= -->
+        <div id="view-syllabus" class="view-section hidden fade-in max-w-6xl mx-auto">
+            <div class="text-center mb-10 bg-white p-6 rounded-3xl shadow-sm border border-orange-100">
+                <h2 class="text-3xl font-bold text-gray-900 mb-3">📘 แผนการสอน (Syllabus) 16 สัปดาห์ <span class="text-orange-500">🥕</span></h2>
+                <p class="text-gray-600 text-lg">หลักสูตรต่อเนื่อง 4 เดือน (1 หัวข้อ/สัปดาห์) ออกแบบเพื่อพัฒนาทักษะตามช่วงวัย</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Course 1: Kids Explorer -->
+                <div class="bg-white rounded-3xl shadow-sm border-t-8 border-yellow-400 overflow-hidden">
+                    <div class="p-6 bg-yellow-50 text-center border-b border-yellow-100">
+                        <div class="text-xs font-bold text-white bg-yellow-500 px-3 py-1 rounded-full inline-block mb-2">อายุ 5-7 ปี</div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-1">Kids Explorer</h3>
+                        <p class="text-sm text-yellow-700">ปูพื้นฐานตรรกะและจินตนาการ</p>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <!-- เดือน 1 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-yellow-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 1: จุดประกายจินตนาการ</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 1:</strong> รู้จักหุ่นยนต์และส่วนประกอบเบื้องต้น</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 2:</strong> สนุกกับตัวต่อกลไกอย่างง่าย (ฟันเฟืองและคาน)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 3:</strong> วิทยาศาสตร์รอบตัว: แสงและสีเบื้องต้น</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 4:</strong> ศิลปะวงจรไฟฟ้ากระดาษ (Paper Circuits)</li>
+                            </ul>
+                        </div>
+                        <!-- เดือน 2 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-yellow-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 2: ตรรกะและการแก้ปัญหา</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 5:</strong> คำสั่งไร้จอ Unplugged Coding (ทิศทาง)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 6:</strong> เกมกระดานฝึกตรรกะ (Logical Board Games)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 7:</strong> การประกอบรถหุ่นยนต์พื้นฐาน</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 8:</strong> มอเตอร์ทำงานอย่างไร? (สร้างรถพลังงานแบตเตอรี่)</li>
+                            </ul>
+                        </div>
+                        <!-- เดือน 3 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-yellow-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 3: การควบคุมและสัมผัส</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 9:</strong> ภารกิจบังคับหุ่นยนต์เดินหน้า-ถอยหลัง</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 10:</strong> ภารกิจบังคับหุ่นยนต์เลี้ยวผ่านอุปสรรค</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 11:</strong> การทดลอง STEM: แรงลอยตัวและการจม</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 12:</strong> การทดลอง STEM: พลังงานลมพัดพารถ</li>
+                            </ul>
+                        </div>
+                        <!-- เดือน 4 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-yellow-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 4: สร้างสรรค์ผลงาน</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 13:</strong> รู้จักเซ็นเซอร์เบื้องต้น (ตาของหุ่นยนต์)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 14:</strong> โค้ดดิ้งร่วมกับเซ็นเซอร์อย่างง่าย</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 15:</strong> สร้างสรรค์โครงงานจิ๋ว (Mini Project Part 1)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 16:</strong> นำเสนอผลงานและรับใบประกาศ (Showcase)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 2: Junior Creator -->
+                <div class="bg-white rounded-3xl shadow-sm border-t-8 border-green-500 overflow-hidden">
+                    <div class="p-6 bg-green-50 text-center border-b border-green-100">
+                        <div class="text-xs font-bold text-white bg-green-500 px-3 py-1 rounded-full inline-block mb-2">อายุ 8-12 ปี</div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-1">Junior Creator</h3>
+                        <p class="text-sm text-green-700">เขียนโปรแกรมประกอบหุ่นยนต์เคลื่อนที่</p>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <!-- เดือน 1 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-green-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 1: พื้นฐาน Block-Based Coding</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 1:</strong> ปูพื้นฐานการเขียนโปรแกรมแบบบล็อก (SMR)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 2:</strong> คำสั่งตามลำดับและการทำงานแบบวนซ้ำ (Loop)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 3:</strong> คำสั่งแบบมีเงื่อนไข (If-Else) เบื้องต้น</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 4:</strong> การสร้างตัวแปรและการคำนวณทางคณิตศาสตร์</li>
+                            </ul>
+                        </div>
+                        <!-- เดือน 2 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-green-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 2: ฮาร์ดแวร์และการควบคุม</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 5:</strong> รู้จักไมโครคอนโทรลเลอร์และการต่อวงจร LED</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 6:</strong> ควบคุมมอเตอร์ สร้างหุ่นยนต์วิ่งตามคำสั่ง</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 7:</strong> เซ็นเซอร์อัลตราโซนิก (Ultrasonic) วัดระยะทาง</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 8:</strong> โปรเจกต์: หุ่นยนต์หลบหลีกสิ่งกีดขวางอัตโนมัติ</li>
+                            </ul>
+                        </div>
+                        <!-- เดือน 3 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-green-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 3: การตรวจจับและโต้ตอบ</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 9:</strong> เซ็นเซอร์อินฟราเรด (IR) ตรวจจับเส้นสีดำ</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 10:</strong> โปรเจกต์: หุ่นยนต์เดินตามเส้น (Line Tracking)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 11:</strong> การปรับแต่งความเร็วมอเตอร์ด้วย PWM</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 12:</strong> โปรเจกต์: สร้างเกมส์ตอบโต้บนหน้าจอ (HTML)</li>
+                            </ul>
+                        </div>
+                        <!-- เดือน 4 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-green-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 4: โครงงานประยุกต์</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 13:</strong> การสื่อสารไร้สายเบื้องต้น (Bluetooth/Radio)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 14:</strong> บังคับหุ่นยนต์ผ่านสมาร์ทโฟนแบบ Real-time</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 15:</strong> ออกแบบโครงงานส่วนตัว Junior Project</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 16:</strong> นำเสนอโครงงาน ทดสอบระบบ และรับประกาศนียบัตร</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 3: Tech Innovator -->
+                <div class="bg-white rounded-3xl shadow-sm border-t-8 border-blue-500 overflow-hidden">
+                    <div class="p-6 bg-blue-50 text-center border-b border-blue-100">
+                        <div class="text-xs font-bold text-white bg-blue-500 px-3 py-1 rounded-full inline-block mb-2">อายุ 13 ปีขึ้นไป</div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-1">Tech Innovator</h3>
+                        <p class="text-sm text-blue-700">เขียนโปรแกรม Python/C++, IoT ควบคุมระบบ</p>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <!-- เดือน 1 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-blue-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 1: ขั้นสูงด้วย C++ / Python</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 1:</strong> โครงสร้างภาษา C++ (Syntax, Variables, Functions)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 2:</strong> ข้อมูลแบบ Array และ Pointers ในการจัดการหน่วยความจำ</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 3:</strong> การออกแบบและวิเคราะห์วงจรไฟฟ้าด้วย Simulator</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 4:</strong> อ่านค่าเซ็นเซอร์ Analog/Digital และการทำ Calibration</li>
+                            </ul>
+                        </div>
+                        <!-- เดือน 2 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-blue-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 2: อัลกอริทึมและกลไก</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 5:</strong> เขียนอัลกอริทึม PID สำหรับหุ่นยนต์เดินตามเส้นขั้นสูง</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 6:</strong> ควบคุมเซอร์โวมอเตอร์ (Servo) และประยุกต์สร้างแขนกล</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 7:</strong> รู้จักบอร์ด ESP32 และการเชื่อมต่อเครือข่าย Wi-Fi</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 8:</strong> พื้นฐาน IoT: การส่งข้อมูลขึ้น Cloud (MQTT / HTTP)</li>
+                            </ul>
+                        </div>
+                        <!-- เดือน 3 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-blue-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 3: Web Server & IoT</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 9:</strong> การพัฒนา Web Server ควบคุมอุปกรณ์บน ESP32</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 10:</strong> โปรเจกต์: Smart Aquarium (วัดอุณหภูมิ/ให้อาหารปลา)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 11:</strong> สร้าง Dashboard แสดงผลข้อมูลด้วย HTML/JS เบื้องต้น</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 12:</strong> ระบบฐานข้อมูลและการบันทึก Log สำหรับงาน IoT</li>
+                            </ul>
+                        </div>
+                        <!-- เดือน 4 -->
+                        <div>
+                            <h4 class="font-bold text-gray-800 border-b border-gray-100 pb-2 mb-3 text-sm text-blue-600"><i class="fa-solid fa-calendar-day"></i> เดือนที่ 4: นวัตกรรมแห่งอนาคต</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 list-inside">
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 13:</strong> การทำงานแบบ Multitasking (FreeRTOS เบื้องต้น)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 14:</strong> ประยุกต์ใช้ AI Vision อย่างง่าย (Image Recognition)</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 15:</strong> การสร้าง Prototype นวัตกรรม Tech Innovator ของตนเอง</li>
+                                <li><strong class="text-gray-800">สัปดาห์ที่ 16:</strong> นำเสนอผลงาน (Pitching) และทดสอบความเสถียรของระบบ</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- ================= VIEW: REGISTER FORM ================= -->
