@@ -27,6 +27,14 @@
             opacity: 1;
         }
         
+        /* สไตล์สำหรับปุ่มเลือกวันเรียน */
+        .day-radio:checked + div {
+            border-color: #dc2626;
+            background-color: #fef2f2;
+            color: #dc2626;
+            font-weight: 600;
+        }
+        
         /* เพิ่ม Animation ให้ตอนโหลดเรียบเนียนขึ้น */
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -111,6 +119,48 @@
                                 <input type="text" name="lineId" class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="Line ID สำหรับติดต่อ">
                             </div>
                         </div>
+                        
+                        <!-- เพิ่มตัวเลือกวันเรียน -->
+                        <div class="md:col-span-2 border-t border-gray-100 pt-6 mt-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-3">วันที่ต้องการเรียน (Study Day) *</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="studyDay" value="วันเสาร์" required class="day-radio sr-only">
+                                    <div class="px-4 py-3 rounded-lg border border-gray-300 text-center hover:border-red-300 transition-colors bg-white text-gray-600 text-sm">วันเสาร์</div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="studyDay" value="วันอาทิตย์" required class="day-radio sr-only">
+                                    <div class="px-4 py-3 rounded-lg border border-gray-300 text-center hover:border-red-300 transition-colors bg-white text-gray-600 text-sm">วันอาทิตย์</div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="studyDay" value="วันธรรมดา" required class="day-radio sr-only">
+                                    <div class="px-4 py-3 rounded-lg border border-gray-300 text-center hover:border-red-300 transition-colors bg-white text-gray-600 text-sm">วันธรรมดา</div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="studyDay" value="จัดตารางเอง" required class="day-radio sr-only">
+                                    <div class="px-4 py-3 rounded-lg border border-gray-300 text-center hover:border-red-300 transition-colors bg-white text-gray-600 text-sm">จัดตารางเอง</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- เพิ่มวันที่เริ่มและวันที่จบ -->
+                        <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">วันที่เริ่มเรียน *</label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-calendar-plus absolute left-4 top-4 text-gray-400"></i>
+                                    <input type="date" name="startDate" required class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">วันที่จบหลักสูตร (โดยประมาณ) *</label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-calendar-check absolute left-4 top-4 text-gray-400"></i>
+                                    <input type="date" name="endDate" required class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition">
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </section>
 
@@ -221,9 +271,9 @@
                             <tr>
                                 <th class="px-6 py-4 font-semibold">รหัส</th>
                                 <th class="px-6 py-4 font-semibold">ชื่อนักเรียน (อายุ)</th>
-                                <th class="px-6 py-4 font-semibold">ข้อมูลติดต่อผู้ปกครอง</th>
-                                <th class="px-6 py-4 font-semibold">หลักสูตร / แพ็กเกจ</th>
-                                <th class="px-6 py-4 font-semibold">วันที่สมัคร</th>
+                                <th class="px-6 py-4 font-semibold">ข้อมูลผู้ปกครอง</th>
+                                <th class="px-6 py-4 font-semibold">หลักสูตร/แพ็กเกจ (ระยะเวลา)</th>
+                                <th class="px-6 py-4 font-semibold">วันที่ส่งข้อมูล</th>
                                 <th class="px-6 py-4 font-semibold text-center">สถานะ</th>
                             </tr>
                         </thead>
@@ -248,7 +298,7 @@
     <!-- JavaScript Logic -->
     <script>
         // ==========================================================
-        // URL ของ Google Apps Script ของคุณ
+        // URL ของ Google Apps Script
         // ==========================================================
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzPlNehr6xCrluPION-IwxbdLcC_z7yzoQ8-1Ho0k6NT_q9-Qfbx0OtdP1PLNy9hrQY/exec';
 
@@ -269,8 +319,20 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderCourses();
             renderPackages();
-            fetchData(); // ดึงข้อมูลทันทีเมื่อเปิดเว็บ
+            fetchData();
         });
+
+        // ================= ฟังก์ชันแปลงวันที่ให้อ่านง่าย =================
+        function formatDateThai(dateString) {
+            if (!dateString) return 'ไม่ระบุ';
+            const d = new Date(dateString);
+            if (isNaN(d.getTime())) return dateString; // ถ้าแปลงไม่ได้ให้คืนค่าเดิม
+            return d.toLocaleDateString('th-TH', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
 
         // ================= ฟังก์ชันดึงข้อมูล (GET) =================
         async function fetchData() {
@@ -286,7 +348,6 @@
             adminTableBody.innerHTML = '<tr><td colspan="6" class="text-center py-10"><i class="fa-solid fa-spinner fa-spin text-gray-400 text-2xl mb-2"></i><p class="text-gray-500">กำลังโหลดข้อมูล...</p></td></tr>';
 
             try {
-                // ใส่พารามิเตอร์เวลาต่อท้ายแก้ปัญหา Cache
                 const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + new Date().getTime());
                 if(res.ok) {
                     const data = await res.json();
@@ -306,7 +367,7 @@
             }
         }
 
-        // ================= สลับหน้า (Tabs Navigation) =================
+        // ================= สลับหน้า =================
         function switchView(viewName) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`view-${viewName}`).classList.remove('hidden');
@@ -329,7 +390,6 @@
             }
         }
 
-        // ================= สร้างตัวเลือก หลักสูตรและแพ็กเกจ =================
         function renderCourses() {
             const container = document.getElementById('courseContainer');
             container.innerHTML = courses.map(c => `
@@ -409,14 +469,13 @@
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     body: urlParams,
-                    mode: 'no-cors' // *แก้ปัญหา CORS Block จาก Browser*
+                    mode: 'no-cors' 
                 });
                 
                 switchView('success');
                 setTimeout(() => fetchData(), 1000); 
 
             } catch (error) {
-                // แสดงข้อความแจ้งเตือนผ่าน UI แทนการใช้ popup
                 errorMessage.classList.remove('hidden');
                 console.error('Submission Error:', error);
             } finally {
@@ -435,7 +494,7 @@
             switchView('register');
         }
 
-        // ================= อัปเดตหน้า Dashboard =================
+        // ================= อัปเดตหน้า Dashboard และ History =================
         function updateDashboard() {
             const historyContainer = document.getElementById('historyContainer');
             const adminTableBody = document.getElementById('adminTableBody');
@@ -458,7 +517,18 @@
                 const course = s.courseLevel || '-';
                 const pkgName = s.package || '-';
                 const date = s.date || '-';
+                const studyDay = s.studyDay || 'ไม่ระบุ';
+                
+                // แปลงรูปแบบวันที่เริ่มและจบ
+                const startStr = formatDateThai(s.startDate);
+                const endStr = formatDateThai(s.endDate);
+
                 const initial = name.startsWith('ด.') && name.length > 4 ? name.charAt(4) : name.charAt(0);
+                
+                // ดึงข้อมูลราคาและจำนวนวันอบรมจาก Packages Array
+                const pkgInfo = packages.find(p => p.id === s.package);
+                const price = pkgInfo ? pkgInfo.priceStr : '-';
+                const trainingDays = pkgInfo ? pkgInfo.hours : '-';
 
                 return `
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col relative overflow-hidden transition-all hover:shadow-md fade-in">
@@ -472,8 +542,12 @@
                     </div>
                     <div class="bg-gray-50 rounded-xl p-4 flex-grow border border-gray-100">
                         <div class="flex items-center gap-2 mb-2 font-semibold text-gray-800"><i class="fa-solid fa-book-open text-red-500 w-4 text-center"></i> ${course}</div>
-                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-4"><i class="fa-solid fa-star text-yellow-500 w-4 text-center"></i> แพ็กเกจ: ${pkgName}</div>
-                        <div class="text-xs text-gray-400 mt-auto pt-3 border-t border-gray-200"><i class="fa-solid fa-calendar-day mr-1"></i> ${date}</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-star text-yellow-500 w-4 text-center"></i> แพ็กเกจ: ${pkgName}</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-calendar-week text-blue-500 w-4 text-center"></i> วันที่เรียน: ${studyDay}</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-calendar-days text-purple-500 w-4 text-center"></i> ระยะเวลา: ${startStr} - ${endStr}</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2"><i class="fa-solid fa-clock text-green-500 w-4 text-center"></i> จำนวนชั่วโมง/ครั้ง: ${trainingDays}</div>
+                        <div class="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-4"><i class="fa-solid fa-sack-dollar text-green-600 w-4 text-center"></i> ยอดชำระ: ${price} บาท</div>
+                        <div class="text-xs text-gray-400 mt-auto pt-3 border-t border-gray-200"><i class="fa-solid fa-paper-plane mr-1"></i> ส่งข้อมูลเมื่อ: ${date}</div>
                     </div>
                 </div>
                 `;
@@ -501,6 +575,10 @@
                 const course = s.courseLevel || '-';
                 const pkgName = s.package || '-';
                 const date = s.date || '-';
+                const studyDay = s.studyDay || 'ไม่ระบุ';
+                
+                const startStr = formatDateThai(s.startDate);
+                const endStr = formatDateThai(s.endDate);
 
                 return `
                 <tr class="hover:bg-gray-50 transition fade-in">
@@ -515,7 +593,9 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="font-medium text-gray-900">${course}</div>
-                        <div class="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded inline-block mt-1">${pkgName}</div>
+                        <div class="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded inline-block mt-1 mb-1">${pkgName}</div>
+                        <div class="text-xs text-blue-600 mt-1"><i class="fa-solid fa-calendar-week w-3"></i> ${studyDay}</div>
+                        <div class="text-xs text-purple-600 mt-1"><i class="fa-solid fa-calendar-days w-3"></i> ${startStr} - ${endStr}</div>
                     </td>
                     <td class="px-6 py-4 text-gray-500 whitespace-nowrap">${date}</td>
                     <td class="px-6 py-4 text-center">
